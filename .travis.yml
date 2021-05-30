@@ -1,0 +1,39 @@
+#lenguaje en el cual vamos a trabajar
+language: node_js
+cache: 
+  directories: 
+    - node_modules
+    - ~/.npm
+#indicar la ultima version
+node_js:
+  - '12'
+#verisones que iran de githubv
+git:
+  depth: 3
+#script que ejecutaremos en el sistema, este seria el que tenemos en el package.json pero en estandar yarm.
+script:
+  - yarn build 
+notifications:
+  email:
+    recipients:
+      - angel.espinozatorres213@gmail.com
+    #le indicaremos un correo cuando todo pasa
+    on_success: always
+    #como tambien cuando todo falla la compilacion
+    on_failure: always
+#mandar a produccion el recurso, que sera en este caso gitgub pages
+deploy: 
+  provider: pages
+  skip-cleanup: true
+  keep-history: true
+  #agregar un token para el repositorio y que travis pueda acceder a nuestro repositorio
+  github-token: $GITHUB_TOKEN
+  #este caso seria de donde se tomara el proyecto, que en nuestro caso seria de webpack config
+  local-dir: dist/
+  #agregaremos la rama que se utilizara como deteccion de publicacion
+  target-branch: gh-pages
+  #travis te dara un commit cuando la publiques
+  commit_message: "Deploy del proyecto"
+  #rama que tomara el proyecto
+  on: 
+    branch: master
